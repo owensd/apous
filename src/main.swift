@@ -62,7 +62,19 @@ func filesAtPath(path: String) -> [String] {
     
     return items
         .filter() { $0 != ".apous.swift" }
+        .filter() { $0.pathExtension == "swift" }
         .map() { path.stringByAppendingPathComponent($0) }
+}
+
+func runTask(task: String, _ args: String...) {
+    
+    let t = NSTask()
+    t.launchPath = task
+    t.arguments = args
+    t.standardOutput = NSFileHandle.fileHandleWithStandardOutput()
+    t.standardError = NSFileHandle.fileHandleWithStandardError()
+    t.launch()
+    t.waitUntilExit()
 }
 
 
@@ -73,6 +85,13 @@ if arguments.count != 2 {
 }
 
 let p = try path(arguments[1])
+
+NSFileManager.defaultManager().changeCurrentDirectoryPath(p)
+
+if NSFileManager.defaultManager().fileExistsAtPath(p.stringByAppendingPathComponent("Cartfile")) {
+    runTask("/usr/local/bin/carthage", "update")
+}
+
 
 let files = filesAtPath(p)
 
@@ -85,11 +104,4 @@ for f in files {
 let scriptPath = p.stringByAppendingPathComponent(".apous.swift")
 try script.writeToFile(scriptPath, atomically: true, encoding: NSUTF8StringEncoding)
 
-
-var swift = NSTask()
-swift.launchPath = "/usr/bin/swift"
-swift.arguments = [scriptPath]
-swift.standardOutput = NSFileHandle.fileHandleWithStandardOutput()
-swift.standardError = NSFileHandle.fileHandleWithStandardError()
-swift.launch()
-swift.waitUntilExit()
+runTask("/usr/bin/swift", "-F", "Carthage/Build/Mac", scriptPath)
