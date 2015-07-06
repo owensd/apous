@@ -14,9 +14,6 @@ protocol Tool {
     /// The name of the tool to be run.
     var launchPath: String { get }
     
-    /// `true` when the output of the tool should be printed to `stdout`.
-    var printOutput: Bool { get }
-
     /// Runs the tool and returns result of the execution.
     func run(args: [String]) -> (out: String, err: String, code: Int32)
 
@@ -25,14 +22,56 @@ protocol Tool {
 }
 
 extension Tool {
-    var printOutput: Bool { return true }
     
-
-
+    /// Runs the tool and returns result of the execution.
     func run(args: String...) -> (out: String, err: String, code: Int32) {
         return run(args)
     }
-    
+
+    /// Provides a default implementation for `run` so that all consumers can make use
+    /// of the default behavior of simply running and outputting to `stdout` and `stderr`.
+    func run(args: [String]) -> (out: String, err: String, code: Int32) {
+        // HACK(owensd): I cannot figure out why this tool will not flush our to stdout in real-time,
+        // so forcing it to write to stdout for now.
+        let output = NSFileHandle.fileHandleWithStandardOutput()
+        let error = NSFileHandle.fileHandleWithStandardError()
+        
+        var out = ""
+        var err = ""
+        
+        func stream(handle: NSFileHandle) -> String {
+            let data = handle.availableData
+            let str = NSString(data: data, encoding: NSUTF8StringEncoding) ?? ""
+            return str as String
+        }
+        
+        // NOTE(owensd): These don't work for stdout and stderr...
+        output.readabilityHandler = { out += stream($0) }
+        error.readabilityHandler = { err += stream($0) }
+        
+        let task = NSTask()
+        task.launchPath = launchPath
+        task.arguments = args
+        task.standardOutput = output
+        task.standardError = error
+        task.terminationHandler = {
+            ($0.standardOutput as? NSFileHandle)?.readabilityHandler = nil
+            ($0.standardError as? NSFileHandle)?.readabilityHandler = nil
+        }
+        
+        task.launch()
+        task.waitUntilExit()
+        
+        return (
+            out: out.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
+            err: err.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
+            code: task.terminationStatus)
+    }
+}
+
+struct WhichTool : Tool {
+    let launchPath = "/usr/bin/which"
+
     func run(args: [String]) -> (out: String, err: String, code: Int32) {
         let output = NSPipe()
         let error = NSPipe()
@@ -42,19 +81,15 @@ extension Tool {
             let data = handle.availableData
             let str = NSString(data: data, encoding: NSUTF8StringEncoding) ?? ""
             
-            if self.printOutput {
-                print("\(str)", appendNewline: false)
-            }
-            
             return str as String
         }
         
         var out = ""
         var err = ""
-
+        
         output.fileHandleForReading.readabilityHandler = { out += stream($0) }
         error.fileHandleForReading.readabilityHandler = { err += stream($0) }
-
+        
         let task = NSTask()
         task.launchPath = self.launchPath
         task.arguments = args
@@ -73,60 +108,14 @@ extension Tool {
             err: err.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
             code: task.terminationStatus)
     }
-
-}
-
-struct WhichTool : Tool {
-    let printOutput = false
-    let launchPath = "/usr/bin/which"
 }
 
 struct CocoaPodsTool: Tool {
     let launchPath: String
 
     init?() {
-        let which = WhichTool()
-        let result = which.run("pod")
-        if result.out.characters.count == 0 { return nil }
-        self.launchPath = result.out
-    }
-
-    // HACK(owensd): I cannot figure out why this tool will not flush our to stdout in real-time,
-    // so forcing it to write to stdout for now.
-    func run(args: String...) -> (out: String, err: String, code: Int32) {
-        let output = NSFileHandle.fileHandleWithStandardOutput()
-        let error = NSFileHandle.fileHandleWithStandardError()
-
-        var out = ""
-        var err = ""
-
-        func stream(handle: NSFileHandle) -> String {
-            let data = handle.availableData
-            let str = NSString(data: data, encoding: NSUTF8StringEncoding) ?? ""
-            return str as String
-        }
-
-        // NOTE(owensd): These don't work for stdout and stderr...
-        output.readabilityHandler = { out += stream($0) }
-        error.readabilityHandler = { err += stream($0) }
-
-        let task = NSTask()
-        task.launchPath = self.launchPath
-        task.arguments = args
-        task.standardOutput = output
-        task.standardError = error
-        task.terminationHandler = {
-            ($0.standardOutput as? NSFileHandle)?.readabilityHandler = nil
-            ($0.standardError as? NSFileHandle)?.readabilityHandler = nil
-        }
-
-        task.launch()
-        task.waitUntilExit()
-
-        return (
-            out: out.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
-            err: err.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
-            code: task.terminationStatus)
+        guard let path = launchPathForTool("pod") else { return nil }
+        self.launchPath = path
     }
 }
 
@@ -134,48 +123,8 @@ struct CarthageTool : Tool {
     let launchPath: String
 
     init?() {
-        let which = WhichTool()
-        let result = which.run("carthage")
-        if result.out.characters.count == 0 { return nil }
-        self.launchPath = result.out
-    }
-
-    // HACK(owensd): I cannot figure out why this tool will not flush our to stdout in real-time,
-    // so forcing it to write to stdout for now.
-    func run(args: String...) -> (out: String, err: String, code: Int32) {
-        let output = NSFileHandle.fileHandleWithStandardOutput()
-        let error = NSFileHandle.fileHandleWithStandardError()
-        
-        var out = ""
-        var err = ""
-        
-        func stream(handle: NSFileHandle) -> String {
-            let data = handle.availableData
-            let str = NSString(data: data, encoding: NSUTF8StringEncoding) ?? ""
-            return str as String
-        }
-        
-        // NOTE(owensd): These don't work for stdout and stderr...
-        output.readabilityHandler = { out += stream($0) }
-        error.readabilityHandler = { err += stream($0) }
-        
-        let task = NSTask()
-        task.launchPath = self.launchPath
-        task.arguments = args
-        task.standardOutput = output
-        task.standardError = error
-        task.terminationHandler = {
-            ($0.standardOutput as? NSFileHandle)?.readabilityHandler = nil
-            ($0.standardError as? NSFileHandle)?.readabilityHandler = nil
-        }
-        
-        task.launch()
-        task.waitUntilExit()
-        
-        return (
-            out: out.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
-            err: err.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
-            code: task.terminationStatus)
+        guard let path = launchPathForTool("carthage") else { return nil }
+        self.launchPath = path
     }
 }
 
@@ -183,13 +132,18 @@ struct SwiftTool : Tool {
     let launchPath: String
     
     init?() {
-        let which = WhichTool()
-        let result = which.run("swiftc")
-        if result.out.characters.count == 0 { return nil }
-        self.launchPath = result.out
+        guard let path = launchPathForTool("swiftc") else { return nil }
+        self.launchPath = path
     }
 }
 
 struct ApousScriptTool : Tool {
     let launchPath = "./.apousscript"
+}
+
+func launchPathForTool(tool: String) -> String? {
+    let which = WhichTool()
+    let result = which.run(tool)
+    
+    return result.out.characters.count == 0 ? nil : result.out
 }
