@@ -44,6 +44,7 @@
 		7D0F00911B4AF32F003B6EF0 /* apoustest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = apoustest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0F00931B4AF32F003B6EF0 /* apoustest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apoustest.swift; sourceTree = "<group>"; };
 		7D0F00951B4AF32F003B6EF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7D0F009A1B4AF3F1003B6EF0 /* Features.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Features.md; sourceTree = "<group>"; };
 		7D3AC3421B49F1FC0068CC83 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D3AC3441B49F62F0068CC83 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7D3AC3451B49F99B0068CC83 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -72,10 +73,9 @@
 		7D03732C1B49021700E2711D = {
 			isa = PBXGroup;
 			children = (
-				7D3AC3441B49F62F0068CC83 /* LICENSE */,
-				7D3AC3421B49F1FC0068CC83 /* README.md */,
+				7D0F00991B4AF3D9003B6EF0 /* docs */,
 				7D0373371B49021700E2711D /* src */,
-				7D0F00921B4AF32F003B6EF0 /* apoustest */,
+				7D0F00921B4AF32F003B6EF0 /* test */,
 				7D0373361B49021700E2711D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -100,14 +100,23 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		7D0F00921B4AF32F003B6EF0 /* apoustest */ = {
+		7D0F00921B4AF32F003B6EF0 /* test */ = {
 			isa = PBXGroup;
 			children = (
 				7D0F00931B4AF32F003B6EF0 /* apoustest.swift */,
 				7D0F00951B4AF32F003B6EF0 /* Info.plist */,
 			);
-			name = apoustest;
 			path = test;
+			sourceTree = "<group>";
+		};
+		7D0F00991B4AF3D9003B6EF0 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				7D0F009A1B4AF3F1003B6EF0 /* Features.md */,
+				7D3AC3441B49F62F0068CC83 /* LICENSE */,
+				7D3AC3421B49F1FC0068CC83 /* README.md */,
+			);
+			name = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
