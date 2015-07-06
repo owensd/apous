@@ -6,8 +6,7 @@
     |::.|:. |
     `--- ---'
 
-# Apous
-[![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/owensd/apous/master/LICENSE.md) [![GitHub release](https://img.shields.io/github/release/owensd/apous.svg)](https://github.com/owensd/Apous/releases)
+# Apous [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://raw.githubusercontent.com/owensd/apous/master/LICENSE) [![GitHub release](https://img.shields.io/github/release/owensd/apous.svg)](https://github.com/owensd/Apous/releases)
 
 
 Apous is a simple tool that allows for easier authoring of Swift scripts.
