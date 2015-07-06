@@ -27,8 +27,8 @@ It's really that simple.
 
 First, you need to install the latest build of Apous.
 
-TODO(owensd): Finish the install steps.
-
+1. Download the latest version of `apous` from "Releases".
+2. Copy it to a location in your path, such as `/usr/local/bin/`.
 
 # Creating Your First Script
 
