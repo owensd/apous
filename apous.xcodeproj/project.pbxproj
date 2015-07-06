@@ -14,7 +14,25 @@
 		7D3AC3461B49F99B0068CC83 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3451B49F99B0068CC83 /* Utils.swift */; };
 		7D3AC3481B49FE170068CC83 /* ErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3471B49FE170068CC83 /* ErrorCodes.swift */; };
 		7D3AC34A1B4A37BC0068CC83 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3491B4A37BC0068CC83 /* Tools.swift */; };
+		7DF997441B4B33A200E90F56 /* VersionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DF997431B4B33A200E90F56 /* VersionInfo.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7DF9974B1B4B354000E90F56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D03732D1B49021700E2711D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DF997471B4B353600E90F56;
+			remoteInfo = GenerateVersionInfo;
+		};
+		7DF9974D1B4B354800E90F56 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D03732D1B49021700E2711D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7DF997471B4B353600E90F56;
+			remoteInfo = GenerateVersionInfo;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		7D0373331B49021700E2711D /* CopyFiles */ = {
@@ -52,6 +70,8 @@
 		7D3AC3451B49F99B0068CC83 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7D3AC3471B49FE170068CC83 /* ErrorCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorCodes.swift; sourceTree = "<group>"; };
 		7D3AC3491B4A37BC0068CC83 /* Tools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
+		7DF997431B4B33A200E90F56 /* VersionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
+		7DF9974F1B4B356700E90F56 /* version.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = version.sh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +114,7 @@
 		7D0373371B49021700E2711D /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7DF997501B4B37B100E90F56 /* Versioning */,
 				7D0373381B49021700E2711D /* main.swift */,
 				7D3AC3451B49F99B0068CC83 /* Utils.swift */,
 				7D3AC3471B49FE170068CC83 /* ErrorCodes.swift */,
@@ -122,7 +143,33 @@
 			name = docs;
 			sourceTree = "<group>";
 		};
+		7DF997501B4B37B100E90F56 /* Versioning */ = {
+			isa = PBXGroup;
+			children = (
+				7DF997431B4B33A200E90F56 /* VersionInfo.swift */,
+				7DF9974F1B4B356700E90F56 /* version.sh */,
+			);
+			name = Versioning;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		7DF997471B4B353600E90F56 /* GenerateVersionInfo */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = version.sh;
+			buildConfigurationList = 7DF997481B4B353600E90F56 /* Build configuration list for PBXLegacyTarget "GenerateVersionInfo" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			buildWorkingDirectory = "$(SRCROOT)/src";
+			dependencies = (
+			);
+			name = GenerateVersionInfo;
+			passBuildSettingsInEnvironment = 1;
+			productName = GenerateVersionInfo;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		7D0373341B49021700E2711D /* apous */ = {
@@ -137,6 +184,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7DF9974C1B4B354000E90F56 /* PBXTargetDependency */,
 			);
 			name = apous;
 			productName = apous;
@@ -154,6 +202,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				7DF9974E1B4B354800E90F56 /* PBXTargetDependency */,
 			);
 			name = apoustest;
 			productName = apoustest;
@@ -175,6 +224,9 @@
 					7D0F00901B4AF32F003B6EF0 = {
 						CreatedOnToolsVersion = 7.0;
 					};
+					7DF997471B4B353600E90F56 = {
+						CreatedOnToolsVersion = 7.0;
+					};
 				};
 			};
 			buildConfigurationList = 7D0373301B49021700E2711D /* Build configuration list for PBXProject "apous" */;
@@ -189,6 +241,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				7DF997471B4B353600E90F56 /* GenerateVersionInfo */,
 				7D0373341B49021700E2711D /* apous */,
 				7D0F00901B4AF32F003B6EF0 /* apoustest */,
 			);
@@ -214,6 +267,7 @@
 				7D3AC3481B49FE170068CC83 /* ErrorCodes.swift in Sources */,
 				7D0373391B49021700E2711D /* main.swift in Sources */,
 				7D0F00B11B4B18B6003B6EF0 /* Xcode.swift in Sources */,
+				7DF997441B4B33A200E90F56 /* VersionInfo.swift in Sources */,
 				7D3AC34A1B4A37BC0068CC83 /* Tools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +281,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7DF9974C1B4B354000E90F56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DF997471B4B353600E90F56 /* GenerateVersionInfo */;
+			targetProxy = 7DF9974B1B4B354000E90F56 /* PBXContainerItemProxy */;
+		};
+		7DF9974E1B4B354800E90F56 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7DF997471B4B353600E90F56 /* GenerateVersionInfo */;
+			targetProxy = 7DF9974D1B4B354800E90F56 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		7D03733A1B49021700E2711D /* Debug */ = {
@@ -247,7 +314,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.1.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -291,7 +357,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 0.1.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -345,6 +410,29 @@
 			};
 			name = Release;
 		};
+		7DF997491B4B353600E90F56 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7DF9974A1B4B353600E90F56 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -374,6 +462,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7DF997481B4B353600E90F56 /* Build configuration list for PBXLegacyTarget "GenerateVersionInfo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7DF997491B4B353600E90F56 /* Debug */,
+				7DF9974A1B4B353600E90F56 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

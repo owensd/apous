@@ -11,14 +11,8 @@ import Foundation
 let CartfileConfig = "Cartfile"
 let PodfileConfig = "Podfile"
 
-let ApousScriptFile = ".apous.swift"
-
-// TODO(owensd): Pull this from a proper versioning tool.
-let Version = "0.1.1"
-let Branch = "master"
-
 func printUsage() {
-    print("OVERVIEW: Apous Swift Script Runner (build: \(Version)-\(Branch))")
+    print("OVERVIEW: Apous Swift Script Runner (build: \(VersionInfo.Version.rawValue)-\(VersionInfo.Branch.rawValue))")
     print("")
     print("USAGE: apous [<script_file>|<path/to/scripts>]")
 }
