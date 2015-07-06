@@ -10,5 +10,6 @@ enum ErrorCode: Int, ErrorType {
     case InvalidUsage = 1
     case PathNotFound
     case CarthageNotInstalled
+    case CocoaPodsNotInstalled
     case SwiftNotInstalled
 }
