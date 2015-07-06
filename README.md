@@ -6,6 +6,10 @@
     |::.|:. |
     `--- ---'
 
+# Apous
+[![GitHub license](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/owensd/apous/master/LICENSE.md) [![GitHub release](https://img.shields.io/github/release/owensd/apous.svg)](https://github.com/owensd/Apous/releases)
+
+
 Apous is a simple tool that allows for easier authoring of Swift scripts.
 
 Primary features:
@@ -13,7 +17,7 @@ Primary features:
   1. Allow the breaking up of scripts into multiple files.
   2. Dependency management through [Carthage](https://github.com/Carthage/Carthage) or [CocoaPods](https://github.com/CocoaPods/CocoaPods/).
 
-# How it Works
+## How it Works
 
 Apous works by first checking for a `Cartfile` or `Podfile` in your script's directory. If one is
 present, then `carthage update` or `pod install --no-integrate` will be run. 
@@ -23,14 +27,14 @@ run automatically for you.
 
 It's really that simple.
 
-# Getting Started
+## Getting Started
 
 First, you need to install the latest build of Apous.
 
 1. Download the latest version of `apous` from "Releases".
 2. Copy it to a location in your path, such as `/usr/local/bin/`.
 
-# Creating Your First Script
+## Creating Your First Script
 
 1. Create a new directory for your scripts, say `mkdir demo`
 2. Change to that directory: `cd demo`
@@ -52,14 +56,14 @@ This will output:
 You can see some other samples here: [Samples](https://github.com/owensd/apous/tree/master/samples).
 
 
-# Known Issues
+## Known Issues
 
 Currently there are some design limitations:
 
   * [Issue #1](https://github.com/owensd/apous/issues/1) - Support for nested directories.  
   * [Issue #2](https://github.com/owensd/apous/issues/2) - Support for folder structure packages.
 
-# FAQ
+## FAQ
 
 **Q: What is Apous mean?**
 
