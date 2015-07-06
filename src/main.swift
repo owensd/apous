@@ -86,7 +86,7 @@ func run() throws {
         exit(.SwiftNotInstalled)
     }
 
-    swift.run("-F", "Carthage/Build/Mac", "Rome", scriptPath)
+    swift.run("-F", "Carthage/Build/Mac", "-F", "Rome", scriptPath)
 }
 
 try run()
