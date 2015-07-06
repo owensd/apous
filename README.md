@@ -61,5 +61,6 @@ Currently there are some design limitations:
 
 # FAQ
 
-Q: What is Apous mean?
+**Q: What is Apous mean?**
+
 A: It's from the ancient Greek απους, meaning "without feet".
