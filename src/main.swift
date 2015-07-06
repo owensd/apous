@@ -86,7 +86,7 @@ func run() throws {
     swift.run(args)
     
     let script = ApousScriptTool()
-    try script.run()
+    script.run()
 }
 
 try run()

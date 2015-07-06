@@ -10,22 +10,8 @@ import Foundation
 
 /// Returns the root path that contains the script(s).
 /// This is
-func canonicalPath(item: String) throws -> String {
-    func extract() -> String {
-        if item.pathExtension == "swift" {
-            let path = item.stringByDeletingLastPathComponent
-            if path == "" {
-                return NSFileManager.defaultManager().currentDirectoryPath
-            }
-            
-            return path
-        }
-        else {
-            return item
-        }
-    }
-    
-    let path = extract().stringByStandardizingPath
+func canonicalPath(path: String) throws -> String {
+    let path = path.stringByStandardizingPath
     
     var isDirectory: ObjCBool = false
     if NSFileManager.defaultManager().fileExistsAtPath(path, isDirectory: &isDirectory) {
@@ -47,12 +33,7 @@ func filesAtPath(path: String) -> [String] {
     }
     
     let items: [String] = {
-        do {
-            return try NSFileManager.defaultManager().subpathsAtPath(path) ?? []
-        }
-        catch {
-            return []
-        }
+        return NSFileManager.defaultManager().subpathsAtPath(path) ?? []
     }()
     
     return items

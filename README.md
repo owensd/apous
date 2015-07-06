@@ -18,8 +18,8 @@ Primary features:
 Apous works by first checking for a `Cartfile` or `Podfile` in your script's directory. If one is
 present, then `carthage update` or `pod install --no-integrate` will be run. 
 
-Next, all of your Swift files are combined into a single `.apous.swift` file that can
-then be run by the `swift` REPL.
+Next, all of your Swift files are compiled into a single `.apousscript` binary that will then be
+run automatically for you.
 
 It's really that simple.
 
@@ -43,7 +43,7 @@ import Foundation
 print("Welcome to Apous!")
 ```
 
-5. Run the script: `apous demo.swift`
+5. Run the script: `apous .`
 
 This will output: 
 
