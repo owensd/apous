@@ -16,15 +16,24 @@ protocol Tool {
     
     /// `true` when the output of the tool should be printed to `stdout`.
     var printOutput: Bool { get }
-    
+
+    /// Runs the tool and returns result of the execution.
+    func run(args: [String]) -> (out: String, err: String, code: Int32)
+
     /// Runs the tool and returns result of the execution.
     func run(args: String...) -> (out: String, err: String, code: Int32)
 }
 
 extension Tool {
     var printOutput: Bool { return true }
+    
+
 
     func run(args: String...) -> (out: String, err: String, code: Int32) {
+        return run(args)
+    }
+    
+    func run(args: [String]) -> (out: String, err: String, code: Int32) {
         let output = NSPipe()
         let error = NSPipe()
         
@@ -175,8 +184,12 @@ struct SwiftTool : Tool {
     
     init?() {
         let which = WhichTool()
-        let result = which.run("swift")
+        let result = which.run("swiftc")
         if result.out.characters.count == 0 { return nil }
         self.launchPath = result.out
     }
+}
+
+struct ApousScriptTool : Tool {
+    let launchPath = "./.apousscript"
 }

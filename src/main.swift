@@ -53,6 +53,8 @@ func run() throws {
     // The tools need to be run under the context of the script directory.
     fileManager.changeCurrentDirectoryPath(path)
 
+    var frameworkPaths: [String] = []
+    
     if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
         guard let carthage = CarthageTool() else {
             print("Carthage does not seem to be installed or in your path.")
@@ -60,6 +62,7 @@ func run() throws {
         }
         
         carthage.run("update")
+        frameworkPaths += ["-F", "Carthage/Build/Mac"]
     }
 
     if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
@@ -69,24 +72,21 @@ func run() throws {
         }
 
         pods.run("install", "--no-integrate")
+        frameworkPaths += ["-F", "Rome"]
     }
 
     let files = filesAtPath(path)
-
-    var script = ""
-    for f in files {
-        script += try "// file: \(f)\n" + String(contentsOfFile: f, encoding: NSUTF8StringEncoding) + "\n"
-    }
-
-    let scriptPath = path.stringByAppendingPathComponent(ApousScriptFile)
-    try script.writeToFile(scriptPath, atomically: true, encoding: NSUTF8StringEncoding)
+    let args = frameworkPaths + ["-o", ".apousscript"] + files
 
     guard let swift = SwiftTool() else {
         print("Unable to find a version of Swift in your path.")
         exit(.SwiftNotInstalled)
     }
 
-    swift.run("-F", "Carthage/Build/Mac", "-F", "Rome", scriptPath)
+    swift.run(args)
+    
+    let script = ApousScriptTool()
+    try script.run()
 }
 
 try run()

@@ -10,6 +10,7 @@
 		7D0373391B49021700E2711D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0373381B49021700E2711D /* main.swift */; };
 		7D0373401B49028E00E2711D /* apous in Deploy Locally */ = {isa = PBXBuildFile; fileRef = 7D0373351B49021700E2711D /* apous */; };
 		7D0F00941B4AF32F003B6EF0 /* apoustest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F00931B4AF32F003B6EF0 /* apoustest.swift */; };
+		7D0F00B11B4B18B6003B6EF0 /* Xcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F00B01B4B18B6003B6EF0 /* Xcode.swift */; };
 		7D3AC3461B49F99B0068CC83 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3451B49F99B0068CC83 /* Utils.swift */; };
 		7D3AC3481B49FE170068CC83 /* ErrorCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3471B49FE170068CC83 /* ErrorCodes.swift */; };
 		7D3AC34A1B4A37BC0068CC83 /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D3AC3491B4A37BC0068CC83 /* Tools.swift */; };
@@ -45,6 +46,7 @@
 		7D0F00931B4AF32F003B6EF0 /* apoustest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apoustest.swift; sourceTree = "<group>"; };
 		7D0F00951B4AF32F003B6EF0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7D0F009A1B4AF3F1003B6EF0 /* Features.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Features.md; sourceTree = "<group>"; };
+		7D0F00B01B4B18B6003B6EF0 /* Xcode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Xcode.swift; sourceTree = "<group>"; };
 		7D3AC3421B49F1FC0068CC83 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7D3AC3441B49F62F0068CC83 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7D3AC3451B49F99B0068CC83 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				7D3AC3451B49F99B0068CC83 /* Utils.swift */,
 				7D3AC3471B49FE170068CC83 /* ErrorCodes.swift */,
 				7D3AC3491B4A37BC0068CC83 /* Tools.swift */,
+				7D0F00B01B4B18B6003B6EF0 /* Xcode.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				7D3AC3461B49F99B0068CC83 /* Utils.swift in Sources */,
 				7D3AC3481B49FE170068CC83 /* ErrorCodes.swift in Sources */,
 				7D0373391B49021700E2711D /* main.swift in Sources */,
+				7D0F00B11B4B18B6003B6EF0 /* Xcode.swift in Sources */,
 				7D3AC34A1B4A37BC0068CC83 /* Tools.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,6 +373,7 @@
 				7D0F00971B4AF32F003B6EF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

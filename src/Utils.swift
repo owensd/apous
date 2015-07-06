@@ -48,7 +48,7 @@ func filesAtPath(path: String) -> [String] {
     
     let items: [String] = {
         do {
-            return try NSFileManager.defaultManager().contentsOfDirectoryAtPath(path)
+            return try NSFileManager.defaultManager().subpathsAtPath(path) ?? []
         }
         catch {
             return []
