@@ -14,7 +14,7 @@ let PodfileConfig = "Podfile"
 let ApousScriptFile = ".apous.swift"
 
 // TODO(owensd): Pull this from a proper versioning tool.
-let Version = "0.1.0"
+let Version = "0.1.1"
 let Branch = "master"
 
 func printUsage() {
