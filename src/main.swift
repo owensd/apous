@@ -9,6 +9,8 @@
 import Foundation
 
 let CartfileConfig = "Cartfile"
+let PodfileConfig = "Podfile"
+
 let ApousScriptFile = ".apous.swift"
 
 // TODO(owensd): Pull this from a proper versioning tool.
@@ -46,17 +48,27 @@ func run() throws {
     }
 
     let path = try canonicalPath(scriptItem[0])
+    let fileManager = NSFileManager.defaultManager()
 
     // The tools need to be run under the context of the script directory.
-    NSFileManager.defaultManager().changeCurrentDirectoryPath(path)
+    fileManager.changeCurrentDirectoryPath(path)
 
-    if NSFileManager.defaultManager().fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
+    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
         guard let carthage = CarthageTool() else {
             print("Carthage does not seem to be installed or in your path.")
             exit(.CarthageNotInstalled)
         }
         
         carthage.run("update")
+    }
+
+    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
+        guard let pods = CocoaPodsTool() else {
+            print("CocoaPods does not seem to be installed or in your path.")
+            exit(.CocoaPodsNotInstalled)
+        }
+
+        pods.run("install --no-integrate")
     }
 
     let files = filesAtPath(path)
@@ -74,7 +86,7 @@ func run() throws {
         exit(.SwiftNotInstalled)
     }
 
-    swift.run("-F", "Carthage/Build/Mac", scriptPath)
+    swift.run("-F", "Carthage/Build/Mac", "Rome", scriptPath)
 }
 
 try run()

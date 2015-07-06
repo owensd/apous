@@ -11,12 +11,12 @@ Apous is a simple tool that allows for easier authoring of Swift scripts.
 Primary features:
 
   1. Allow the breaking up of scripts into multiple files.
-  2. Dependency management through [Carthage](https://github.com/Carthage/Carthage).
+  2. Dependency management through [Carthage](https://github.com/Carthage/Carthage) or [CocoaPods](https://github.com/CocoaPods/CocoaPods/).
 
 # How it Works
 
-Apous works by first checking for a `Cartfile` in your script's directory. If one is
-present, then `carthage update` will be run. 
+Apous works by first checking for a `Cartfile` or `Podfile` in your script's directory. If one is
+present, then `carthage update` or `pod install --ono-integrate` will be run. 
 
 Next, all of your Swift files are combined into a single `.apous.swift` file that can
 then be run by the `swift` REPL.
