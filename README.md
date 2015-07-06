@@ -55,13 +55,6 @@ This will output:
 You can see some other samples here: [Samples](https://github.com/owensd/apous/tree/master/samples).
 
 
-## Known Issues
-
-Currently there are some design limitations:
-
-  * [Issue #1](https://github.com/owensd/apous/issues/1) - Support for nested directories.  
-  * [Issue #2](https://github.com/owensd/apous/issues/2) - Support for folder structure packages.
-
 ## FAQ
 
 **Q: What is Apous mean?**
