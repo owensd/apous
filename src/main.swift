@@ -68,7 +68,7 @@ func run() throws {
             exit(.CocoaPodsNotInstalled)
         }
 
-        pods.run("install --no-integrate")
+        pods.run("install", "--no-integrate")
     }
 
     let files = filesAtPath(path)

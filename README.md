@@ -16,7 +16,7 @@ Primary features:
 # How it Works
 
 Apous works by first checking for a `Cartfile` or `Podfile` in your script's directory. If one is
-present, then `carthage update` or `pod install --ono-integrate` will be run. 
+present, then `carthage update` or `pod install --no-integrate` will be run. 
 
 Next, all of your Swift files are combined into a single `.apous.swift` file that can
 then be run by the `swift` REPL.
