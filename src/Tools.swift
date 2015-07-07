@@ -92,6 +92,7 @@ func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool 
     task.launchPath = try canonicalPath(launchPath)
     task.arguments = args
     task.standardOutput = output
+    task.standardError = output
     task.terminationHandler = {
         ($0.standardOutput as? NSFileHandle)?.readabilityHandler = nil
     }
@@ -136,6 +137,36 @@ extension tools {
 
     static func swiftc(args: String...) throws -> TaskResult {
         return try tools.swiftc(args)
+    }
+}
+
+extension tools {
+    static let CartfileConfig = "Cartfile"
+    static let PodfileConfig = "Podfile"
+
+    static func apous(path: String) throws -> TaskResult {
+        let fileManager = NSFileManager.defaultManager()
+        
+        // The tools need to be run under the context of the script directory.
+        fileManager.changeCurrentDirectoryPath(path)
+        
+        var frameworkPaths: [String] = []
+        
+        if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
+            try tools.carthage("update")
+            frameworkPaths += ["-F", "Carthage/Build/Mac"]
+        }
+        
+        if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
+            try tools.pod("install", "--no-integrate")
+            frameworkPaths += ["-F", "Rome"]
+        }
+        
+        let files = filesAtPath(path)
+        let args = frameworkPaths + ["-o", ".apousscript"] + files
+        
+        try tools.swiftc(args)
+        return try runTask("./.apousscript")
     }
 }
 

@@ -11,14 +11,44 @@ import XCTest
 class SamplesTest : XCTestCase {
     
     lazy var samplesPath: String = {
-        return NSBundle(forClass: self.dynamicType).bundlePath.stringByAppendingPathComponent("samples") ?? ""
+        let path = NSBundle(forClass: self.dynamicType)
+            .bundlePath
+            .stringByDeletingLastPathComponent
+            .stringByAppendingPathComponent("samples") ?? ""
+        return path
     }()
     
-//    func testBasic() {
-//        let path: String = samplesPath
-//        let files: [String] = filesAtPath(path)
-//        guard let apous = ApousTool() else { XCTFail("Unable to find the apous tool"); return }
-//        apous.run(samplesPath.stringByAppendingPathComponent("basic"))
-//    }
+    func validateSampleToolOutput(sample: String, output: String) {
+        do {
+            let path: String = samplesPath.stringByAppendingPathComponent(sample)
+            if !NSFileManager.defaultManager().fileExistsAtPath(path) {
+                XCTFail("The given samples path does not exist: \(path)")
+                return
+            }
+            
+            let result = try tools.apous(path)
+            XCTAssertEqual(
+                result.out.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
+                output.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()),
+                "The sample output does not match the expected.")
+        }
+        catch {
+            XCTFail("An error occurred during test execution.")
+        }
+    }
     
+    func testBasic() {
+        let output = "Hello! This is a simple sample that contains no dependencies."
+        validateSampleToolOutput("basic", output: output)
+    }
+
+    func testMulti() {
+        let output = "foo: 2\r\nbar: 1"
+        validateSampleToolOutput("multi", output: output)
+    }
+
+    func testNested() {
+        let output = "Testing Nested Directories\r\nabspath: abspath!\r\nbasename: basename!"
+        validateSampleToolOutput("nested", output: output)
+    }
 }

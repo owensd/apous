@@ -8,9 +8,6 @@
 
 import Foundation
 
-let CartfileConfig = "Cartfile"
-let PodfileConfig = "Podfile"
-
 func printUsage() {
     print("OVERVIEW: Apous Swift Script Runner (build: \(VersionInfo.Version.rawValue)-\(VersionInfo.Branch.rawValue))")
     print("")
@@ -62,28 +59,7 @@ func run() throws {
         exit(ErrorCode.InvalidUsage)
     }
 
-    let fileManager = NSFileManager.defaultManager()
-
-    // The tools need to be run under the context of the script directory.
-    fileManager.changeCurrentDirectoryPath(path)
-
-    var frameworkPaths: [String] = []
-    
-    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
-        try tools.carthage("update")
-        frameworkPaths += ["-F", "Carthage/Build/Mac"]
-    }
-
-    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
-        try tools.pod("install", "--no-integrate")
-        frameworkPaths += ["-F", "Rome"]
-    }
-
-    let files = filesAtPath(path)
-    let args = frameworkPaths + ["-o", ".apousscript"] + files
-
-    try tools.swiftc(args)
-    try runTask("./.apousscript")
+    try tools.apous(path)
 }
 
 do {
