@@ -33,6 +33,8 @@ First, you need to install the latest build of Apous.
 1. Download the latest version of `apous` from "Releases".
 2. Copy it to a location in your path, such as `/usr/local/bin/`.
 
+Homebrew support is pending: https://github.com/Homebrew/homebrew/pull/41473
+
 ## Creating Your First Script
 
 1. Create a new directory for your scripts, say `mkdir demo`
