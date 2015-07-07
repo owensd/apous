@@ -37,4 +37,4 @@ Carthage/
 # Apous
 bin/
 .apousscript
-
+VersionInfo.swift
