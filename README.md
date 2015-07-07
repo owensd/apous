@@ -40,11 +40,11 @@ First, you need to install the latest build of Apous.
 3. Create a new script file: `touch demo.swift`
 4. Change the contents of the file to:
 
-```swift
-import Foundation
+    ```swift
+    import Foundation
 
-print("Welcome to Apous!")
-```
+    print("Welcome to Apous!")
+    ```
 
 5. Run the script: `apous .`
 
