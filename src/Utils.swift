@@ -31,8 +31,9 @@ func filesAtPath(path: String) -> [String] {
     }()
     
     return items
-        .filter() { $0.pathExtension == "swift" }
+        .filter() {
+            let root = $0.pathComponents[0]
+            return $0.pathExtension == "swift" && (root != "Carthage" && root != "Rome" && root != "Pods")
+        }
         .map() { path.stringByAppendingPathComponent($0) }
 }
-
-

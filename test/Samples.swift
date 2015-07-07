@@ -43,12 +43,12 @@ class SamplesTest : XCTestCase {
     }
 
     func testMulti() {
-        let output = "foo: 2\r\nbar: 1"
+        let output = "foo: 2\nbar: 1"
         validateSampleToolOutput("multi", output: output)
     }
 
     func testNested() {
-        let output = "Testing Nested Directories\r\nabspath: abspath!\r\nbasename: basename!"
+        let output = "Testing Nested Directories\nabspath: abspath!\nbasename: basename!"
         validateSampleToolOutput("nested", output: output)
     }
 }

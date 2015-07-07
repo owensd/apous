@@ -1,4 +1,4 @@
 import Argo
 import Runes
 
-print("dependencies import properly")
+print("dependencies imported properly")

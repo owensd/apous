@@ -23,25 +23,28 @@ typealias Tool = (args: String...) throws -> TaskResult
 /// by `output` and `error`.
 func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool = true) throws -> TaskResult
 {
-    // Ok, so stdout sucks the big one. If your NSTask actually does any redirection to another
-    // tool that then outputs to stdout, that is going to be buffered and will only come back in
-    // chunks.
-    
-    var master: Int32 = 0
-    var slave: Int32 = 0
-    if openpty(&master, &slave, nil, nil, nil) == -1 {
-        throw ErrorCode.PTYCreationFailed
-    }
-    defer {
-        close(master)
-        close(slave)
-    }
-
-    let output = NSFileHandle(fileDescriptor: master)
-
     // This is the buffered output that will be returned.
     var out = ""
-    
+
+// It turns out this code is not robust; it does not seem to always get all of the stream data.
+// BUG #12 - https://github.com/owensd/apous/issues/12
+//
+//    // Ok, so stdout sucks the big one. If your NSTask actually does any redirection to another
+//    // tool that then outputs to stdout, that is going to be buffered and will only come back in
+//    // chunks.
+//    
+//    var master: Int32 = 0
+//    var slave: Int32 = 0
+//    if openpty(&master, &slave, nil, nil, nil) == -1 {
+//        throw ErrorCode.PTYCreationFailed
+//    }
+//    defer {
+//        close(master)
+//        close(slave)
+//    }
+//
+//    let output = NSFileHandle(fileDescriptor: master)
+
     func stream(handle: NSFileHandle) -> String {
         let data = handle.availableData
         let str = NSString(data: data, encoding: NSUTF8StringEncoding) as? String ?? ""
@@ -85,8 +88,10 @@ func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool 
         
         return stripped
     }
+
+    let output = NSPipe()
     
-    output.readabilityHandler = { out += stream($0) }
+    output.fileHandleForReading.readabilityHandler = { out += stream($0) }
     
     let task = NSTask()
     task.launchPath = try canonicalPath(launchPath)
@@ -122,11 +127,17 @@ extension tools {
     
     static func pod(args: String...) throws -> TaskResult {
         guard let path = try launchPathForTool("pod") else { throw ErrorCode.CocoaPodsNotInstalled }
+
+        let info = args.reduce("") { $0 + $1 + " " }
+        print("Running pod \(info)")
         return try runTask(path, args: args)
     }
     
     static func carthage(args: String...) throws -> TaskResult {
         guard let path = try launchPathForTool("carthage") else { throw ErrorCode.CarthageNotInstalled }
+        
+        let info = args.reduce("") { $0 + $1 + " " }
+        print("Running carthage \(info)")
         return try runTask(path, args: args)
     }
 
