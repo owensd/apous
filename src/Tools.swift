@@ -104,7 +104,7 @@ func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool 
         code: task.terminationStatus)
 }
 
-// This is my pseudo-namespace thingt that I'm trying out for now...
+// This is my pseudo-namespace thing that I'm trying out for now...
 struct tools {
     private init() { fatalError("Can't you see, this is a namespace!") }
 }
