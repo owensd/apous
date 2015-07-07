@@ -110,10 +110,8 @@ func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool 
         code: task.terminationStatus)
 }
 
-// This is my pseudo-namespace thing that I'm trying out for now...
-struct tools {
-    private init() { fatalError("Can't you see, this is a namespace!") }
-}
+// Psuedo-namespace "tools" simulated with an enum with no cases.
+enum tools {}
 
 private func launchPathForTool(tool: String) throws -> String? {
     let result = try tools.which(tool)
