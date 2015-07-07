@@ -66,7 +66,7 @@ import Foundation
 print("Welcome to Apous!")
 ```
 
-The run:
+Then run:
 
     > chmod +x main.swift
     > ./main.swift
