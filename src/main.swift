@@ -50,38 +50,27 @@ func run() throws {
     var frameworkPaths: [String] = []
     
     if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
-        guard let carthage = CarthageTool() else {
-            print("Carthage does not seem to be installed or in your path.")
-            exit(.CarthageNotInstalled)
-        }
-        
-        carthage.run("update")
+        try tools.carthage("update")
         frameworkPaths += ["-F", "Carthage/Build/Mac"]
     }
 
     if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
-        guard let pods = CocoaPodsTool() else {
-            print("CocoaPods does not seem to be installed or in your path.")
-            exit(.CocoaPodsNotInstalled)
-        }
-
-        pods.run("install", "--no-integrate")
+        try tools.pod("install", "--no-integrate")
         frameworkPaths += ["-F", "Rome"]
     }
 
     let files = filesAtPath(path)
     let args = frameworkPaths + ["-o", ".apousscript"] + files
 
-    guard let swift = SwiftTool() else {
-        print("Unable to find a version of Swift in your path.")
-        exit(.SwiftNotInstalled)
-    }
-
-    swift.run(args)
-    
-    let script = ApousScriptTool()
-    script.run()
+    let r = try tools.swiftc(args)
+    try runTask("./.apousscript")
 }
 
-try run()
+do {
+    try run()
+}
+catch {
+    guard let error = error as? ErrorCode else { exit(1) }
+    exit(Int32(error.rawValue))
+}
 

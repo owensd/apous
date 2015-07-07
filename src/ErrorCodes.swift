@@ -12,4 +12,5 @@ enum ErrorCode: Int, ErrorType {
     case CarthageNotInstalled
     case CocoaPodsNotInstalled
     case SwiftNotInstalled
+    case PTYCreationFailed
 }
