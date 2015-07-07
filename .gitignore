@@ -38,3 +38,4 @@ Carthage/
 bin/
 .apousscript
 VersionInfo.swift
+releases/

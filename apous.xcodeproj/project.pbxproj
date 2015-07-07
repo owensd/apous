@@ -180,6 +180,7 @@
 				7D0373321B49021700E2711D /* Frameworks */,
 				7D0373331B49021700E2711D /* CopyFiles */,
 				7D03733F1B49026800E2711D /* Deploy Locally */,
+				7DE115081B4C4A9100B198FB /* Package for GitHub Release */,
 			);
 			buildRules = (
 			);
@@ -260,6 +261,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7DE115081B4C4A9100B198FB /* Package for GitHub Release */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Package for GitHub Release";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p releases\nrm -f $SRCROOT/releases/$TARGET_NAME.zip\nzip -j $SRCROOT/releases/$TARGET_NAME.zip $SRCROOT/bin/$TARGET_NAME";
+		};
 		7DF9988B1B4B4C5600E90F56 /* Copy Samples */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
