@@ -9,30 +9,14 @@
 import Foundation
 
 /// Returns the root path that contains the script(s).
-/// This is
-func canonicalPath(item: String) throws -> String {
-    func extract() -> String {
-        if item.pathExtension == "swift" {
-            let path = item.stringByDeletingLastPathComponent
-            if path == "" {
-                return NSFileManager.defaultManager().currentDirectoryPath
-            }
-            
-            return path
-        }
-        else {
-            return item
-        }
-    }
+func canonicalPath(path: String) throws -> String {
+    guard let cpath = path.cStringUsingEncoding(NSUTF8StringEncoding) else { throw ErrorCode.PathNotFound }
     
-    let path = extract().stringByStandardizingPath
+    let rpath = realpath(cpath, nil)
+    if rpath == nil { throw ErrorCode.PathNotFound }
     
-    var isDirectory: ObjCBool = false
-    if NSFileManager.defaultManager().fileExistsAtPath(path, isDirectory: &isDirectory) {
-        return path
-    }
-    
-    throw ErrorCode.PathNotFound
+    guard let abspath = String(CString: rpath, encoding: NSUTF8StringEncoding) else { throw ErrorCode.PathNotFound }
+    return abspath
 }
 
 /// Exit the process error with the given `ErrorCode`.
@@ -42,22 +26,14 @@ func canonicalPath(item: String) throws -> String {
 
 /// Returns the full path of the valid script files at the given `path`.
 func filesAtPath(path: String) -> [String] {
-    if DebugOutputEnabled {
-        print("[debug] Finding script files at path: \(path)")
-    }
-    
     let items: [String] = {
-        do {
-            return try NSFileManager.defaultManager().contentsOfDirectoryAtPath(path)
-        }
-        catch {
-            return []
-        }
+        return NSFileManager.defaultManager().subpathsAtPath(path) ?? []
     }()
     
     return items
-        .filter() { $0 != ".apous.swift" && $0.pathExtension == "swift" }
+        .filter() {
+            let root = $0.pathComponents[0]
+            return $0.pathExtension == "swift" && (root != "Carthage" && root != "Rome" && root != "Pods")
+        }
         .map() { path.stringByAppendingPathComponent($0) }
 }
-
-

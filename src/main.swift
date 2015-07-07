@@ -8,17 +8,8 @@
 
 import Foundation
 
-let CartfileConfig = "Cartfile"
-let PodfileConfig = "Podfile"
-
-let ApousScriptFile = ".apous.swift"
-
-// TODO(owensd): Pull this from a proper versioning tool.
-let Version = "0.1.1"
-let Branch = "master"
-
 func printUsage() {
-    print("OVERVIEW: Apous Swift Script Runner (build: \(Version)-\(Branch))")
+    print("OVERVIEW: Apous Swift Script Runner (build: \(VersionInfo.Version.rawValue)-\(VersionInfo.Branch.rawValue))")
     print("")
     print("USAGE: apous [<script_file>|<path/to/scripts>]")
 }
@@ -41,53 +32,41 @@ let DebugOutputEnabled = arguments.contains("-debug")
 // NOTE(owensd): This method is a workaround because of Swift bugs and code in the top-level scope.
 func run() throws {
     let scriptItem = arguments[1..<arguments.count].filter() { $0 != "-debug" }
-    if scriptItem.count != 1 {
+    
+    let path: String
+    switch scriptItem.count {
+    case 0:
+        path = NSFileManager.defaultManager().currentDirectoryPath
+        
+    case 1:
+        let item = scriptItem[0]
+        if item.pathExtension == "swift" {
+            if item.lastPathComponent == "main.swift" {
+                path = item.stringByDeletingLastPathComponent
+            }
+            else {
+                print("Only a 'main.swift' file can be specified.")
+                exit(ErrorCode.InvalidUsage)
+            }
+        }
+        else {
+            path = try canonicalPath(item)
+        }
+        
+    default:
         print("Invalid usage.")
         printUsage()
         exit(ErrorCode.InvalidUsage)
     }
 
-    let path = try canonicalPath(scriptItem[0])
-    let fileManager = NSFileManager.defaultManager()
-
-    // The tools need to be run under the context of the script directory.
-    fileManager.changeCurrentDirectoryPath(path)
-
-    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(CartfileConfig)) {
-        guard let carthage = CarthageTool() else {
-            print("Carthage does not seem to be installed or in your path.")
-            exit(.CarthageNotInstalled)
-        }
-        
-        carthage.run("update")
-    }
-
-    if fileManager.fileExistsAtPath(path.stringByAppendingPathComponent(PodfileConfig)) {
-        guard let pods = CocoaPodsTool() else {
-            print("CocoaPods does not seem to be installed or in your path.")
-            exit(.CocoaPodsNotInstalled)
-        }
-
-        pods.run("install", "--no-integrate")
-    }
-
-    let files = filesAtPath(path)
-
-    var script = ""
-    for f in files {
-        script += try "// file: \(f)\n" + String(contentsOfFile: f, encoding: NSUTF8StringEncoding) + "\n"
-    }
-
-    let scriptPath = path.stringByAppendingPathComponent(ApousScriptFile)
-    try script.writeToFile(scriptPath, atomically: true, encoding: NSUTF8StringEncoding)
-
-    guard let swift = SwiftTool() else {
-        print("Unable to find a version of Swift in your path.")
-        exit(.SwiftNotInstalled)
-    }
-
-    swift.run("-F", "Carthage/Build/Mac", "-F", "Rome", scriptPath)
+    try tools.apous(path)
 }
 
-try run()
+do {
+    try run()
+}
+catch {
+    guard let error = error as? ErrorCode else { exit(1) }
+    exit(Int32(error.rawValue))
+}
 
