@@ -54,6 +54,24 @@ This will output:
 
 You can see some other samples here: [Samples](https://github.com/owensd/apous/tree/master/samples).
 
+### Alternatively
+
+Apous also supports running scripts with `#!`. Note that your entry point script **must** be named `main.swift`.
+
+```swift
+#!/usr/local/bin/apous
+
+import Foundation
+
+print("Welcome to Apous!")
+```
+
+The run:
+
+    > chmod +x main.swift
+    > ./main.swift
+    Welcome to Apous!
+
 
 ## FAQ
 
