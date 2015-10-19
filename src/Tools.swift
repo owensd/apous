@@ -74,7 +74,7 @@ func runTask(launchPath: String, args: [String] = [], outputToStandardOut: Bool 
         }
         
         let replaced = process(str) { (inout string: String, range: Range<String.Index>) in
-            string.replaceRange(range.startIndex ..< advance(range.startIndex, 2), with: "\\e")
+            string.replaceRange(range.startIndex ..< range.startIndex.advancedBy(2), with: "\\e")
         }
         
         let stripped = process(str) { (inout string: String, range: Range<String.Index>) in

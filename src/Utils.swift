@@ -8,6 +8,17 @@
 
 import Foundation
 
+public extension String {
+    public var pathExtension: String { return (self as NSString).pathExtension }
+    public var lastPathComponent: String { return (self as NSString).lastPathComponent }
+    public var stringByDeletingLastPathComponent: String { return (self as NSString).stringByDeletingLastPathComponent }
+    
+    public var pathComponents: [String] { return (self as NSString).pathComponents }
+    public func stringByAppendingPathComponent(str: String) -> String {
+        return (self as NSString).stringByAppendingPathComponent(str)
+    }
+}
+
 /// Returns the root path that contains the script(s).
 func canonicalPath(path: String) throws -> String {
     guard let cpath = path.cStringUsingEncoding(NSUTF8StringEncoding) else { throw ErrorCode.PathNotFound }

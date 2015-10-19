@@ -1,5 +1,5 @@
 
-VERSION=0.2.0
+VERSION=0.2.2
 BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 VERSION_FILE=VersionInfo.swift
 
